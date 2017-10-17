@@ -7,6 +7,7 @@ import android.os.Message;
 import android.util.Pair;
 
 import com.wangw.m3u8cahceproxy.cache.Extinfo;
+import com.wangw.m3u8cahceproxy.cache.M3u8Download;
 import com.wangw.m3u8cahceproxy.cache.TsListDownLoadCallback;
 import com.wangw.m3u8cahceproxy.cache.TsListDownloadRun;
 import com.wangw.m3u8cahceproxy.proxy.PlayProxyServer;
@@ -26,7 +27,7 @@ public class CacheProxyManager implements TsListDownLoadCallback {
     private static final int STATE_FAILED = -1;
     private static final int STATE_ALLOWPLAY = 1;
 
-   private final  Config mConfig;
+    private final  Config mConfig;
     private final ExecutorService mRequestPool = Executors.newFixedThreadPool(5);
     private PlayProxyServer mServer;
     private List<CacheProxyCallback> mCallbacks = new CopyOnWriteArrayList<>();
@@ -47,6 +48,10 @@ public class CacheProxyManager implements TsListDownLoadCallback {
         mRequestPool.submit(tsListDownloadRun);
     }
 
+    public void start(String url, String name){
+        M3u8Download m3u8Download = new M3u8Download(mConfig, url, name);
+        mRequestPool.submit(m3u8Download);
+    }
 
     public void addCallback(CacheProxyCallback callback){
         mCallbacks.add(callback);

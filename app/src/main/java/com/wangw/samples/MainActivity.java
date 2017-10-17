@@ -3,6 +3,7 @@ package com.wangw.samples;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.VideoView;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements CacheProxyCallbac
     public void onTest(View v){
 //        mPlayer.setUp("http://127.0.0.1:2341/test/test.m3u8",false);
 //                mPlayer.setUp("http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8",false);
-        mPlayer.setUp("http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8",false);
+        mPlayer.setUp("http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8",false, "");
         mPlayer.startPlayLogic();
 //        mPlayer.setUp("http://127.0.0.1:2341/test/test.m3u8",false);
 //        File file = new File( Environment.getExternalStorageDirectory().getAbsolutePath(),"AAA");
@@ -63,14 +64,15 @@ public class MainActivity extends AppCompatActivity implements CacheProxyCallbac
     }
 
     private void demo() {
-        List<Extinfo> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Extinfo extinfo = new Extinfo();
-            extinfo.duration = 10;
-            extinfo.url="http://devimages.apple.com/iphone/samples/bipbop/gear1/fileSequence"+i+".ts";
-            list.add(extinfo);
-        }
-        mProxyManager.start(list,"test2");
+//        List<Extinfo> list = new ArrayList<>();
+//        for (int i = 0; i < 10; i++) {
+//            Extinfo extinfo = new Extinfo();
+//            extinfo.duration = 10;
+//            extinfo.url="http://devimages.apple.com/iphone/samples/bipbop/gear1/fileSequence"+i+".ts";
+//            list.add(extinfo);
+//        }
+//        mProxyManager.start(list,"test2");
+        mProxyManager.start("http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8", "");
     }
 
     @Override
@@ -87,11 +89,12 @@ public class MainActivity extends AppCompatActivity implements CacheProxyCallbac
 
     @Override
     public void onStartPlay(String name,String url) {
-        mPlayer.setUp(url,false);
+        Log.d(this.toString(), url);
+        mPlayer.setUp(url,false, "");
         mPlayer.startPlayLogic();
 
-        mVideoView.setVideoPath(url);
-        mVideoView.start();
+//        mVideoView.setVideoPath(url);
+//        mVideoView.start();
     }
 
     @Override

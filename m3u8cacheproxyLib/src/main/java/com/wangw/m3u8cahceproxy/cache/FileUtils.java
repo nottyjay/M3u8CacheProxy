@@ -48,16 +48,32 @@ public class FileUtils {
         return url;
     }
 
+    public static String getUrlFileBasePath(String url){
+        if (TextUtils.isEmpty(url))
+            return "";
+        int index = url.indexOf("?");
+        if (index != -1){
+            url = url.substring(0, index);
+            return getFileNameForUrl(url);
+        }else{
+            index = url.lastIndexOf("/");
+            url = url.substring(0, index+1);
+            return url;
+        }
+    }
+
     public static void saveFile(InputStream inputStream,File outputFile) throws IOException {
         InputStream ips = new BufferedInputStream(inputStream);
 //        int length = connection.getContentLength();
-        FileOutputStream ops = new FileOutputStream(outputFile);
+        File newTempFile = new File(outputFile.getAbsoluteFile() + ".d3");
+        FileOutputStream ops = new FileOutputStream(newTempFile);
         byte[] buffer = new byte[CacheUtils.DEFAULT_BUFFER_SIZE];
         int length;
         while ((length = ips.read(buffer)) != -1){
             ops.write(buffer,0,length);
         }
         ops.flush();
+        newTempFile.renameTo(outputFile);
         CacheUtils.close(ips);
         CacheUtils.close(ops);
     }
